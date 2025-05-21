@@ -85,27 +85,3 @@ def delete_task(request, task_id):
 
     task.delete()
     return JsonResponse({'message': 'Task deleted'})
-
-# @csrf_exempt
-# @post_required
-# def remove_employee_from_task(request, task_id):
-#     try:
-#         data = json.loads(request.body)
-#         username = data.get('username')
-#         if not username:
-#             return JsonResponse({'error': 'Missing username'}, status=400)
-#     except JSONDecodeError:
-#         return JsonResponse({'error': 'Invalid JSON'}, status=400)
-
-#     try:
-#         task = Task.objects.get(pk=task_id)
-#     except Task.DoesNotExist:
-#         return JsonResponse({'error': 'Task not found'}, status=404)
-
-#     try:
-#         profile = Profile.objects.get(user__username=username)
-#     except Profile.DoesNotExist:
-#         return JsonResponse({'error': 'Employee not found'}, status=404)
-
-#     task.employees.remove(profile)
-#     return JsonResponse({'message': f'Employee {username} removed from task'})
