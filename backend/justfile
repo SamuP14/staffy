@@ -1,0 +1,47 @@
+set shell := ["cmd.exe", "/c"]
+
+# ==============================================================================
+# DJANGO RECIPES
+# ==============================================================================
+
+# Launch development server
+rundev:
+    @python ./manage.py runserver
+
+# Launch "production" server
+runserver:
+    @python ./manage.py runserver 0.0.0.0:8000
+
+# Launch Django interactive shell
+sh:
+    @python ./manage.py shell
+
+alias mm := makemigrations
+# Make Django migrations
+makemigrations:
+    python ./manage.py makemigrations
+
+alias m := migrate
+# Apply Django migrations
+migrate:
+    python ./manage.py migrate
+
+alias c := check
+# Check if Django project is correct
+check:
+    python ./manage.py check
+
+# Add a new app and install it in settings.py
+startapp app:
+    @echo off
+    python manage.py startapp {{ app }}
+    python update_settings.py {{ app }}
+
+# ==============================================================================
+# VIRTUALENV RECIPES
+# ==============================================================================
+
+alias i := install-reqs
+# Install project requirements
+install-reqs:
+    pip install -r requirements.txt
