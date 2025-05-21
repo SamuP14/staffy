@@ -114,22 +114,6 @@ Contraseña: admin123
 
 ---
 
-## 🧪 Tests
-
-### Django
-
-```bash
-python manage.py test
-```
-
-### Vue (si se usan pruebas)
-
-```bash
-npm run test
-```
-
----
-
 ## 🧾 Documentación adicional
 
 - [`docs/api.md`](docs/api.md) – Endpoints disponibles
