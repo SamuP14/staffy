@@ -75,7 +75,7 @@ staffy/
 ### 1. Clonar el repositorio
 
 ```bash
-git clone https://github.com/tu_usuario/staffy.git
+git clone https://github.com/SamuP14/staffy.git
 cd staffy
 ```
 
@@ -83,12 +83,12 @@ cd staffy
 
 ```bash
 cd backend
-python -m venv venv
-source venv/bin/activate
+python -m venv .venv --prompt staffy
+.venv/bin/activate
 pip install -r requirements.txt
-python manage.py migrate
+python manage.py migrate (o) just m
 python manage.py createsuperuser
-python manage.py runserver
+python manage.py runserver (o) just
 ```
 
 ### 3. Frontend (Vue 3)
@@ -105,7 +105,7 @@ Accede a: `http://localhost:5173`
 
 ## 🔐 Credenciales de ejemplo
 
-```
+```bash
 Usuario: admin@example.com
 Contraseña: admin123
 ```
@@ -167,17 +167,18 @@ Este proyecto está bajo la licencia MIT. Puedes usarlo, adaptarlo y redistribui
 Staffy es una solución SaaS ligera, intuitiva y flexible que permite a empresas centralizar la gestión de empleados, roles y tareas en un solo lugar.
 
 **Público objetivo:**  
+
 - Empresas de 5 a 250 empleados.  
 - Sectores: retail, servicios, logística, salud, tecnología, educación.  
 - Roles objetivo: Directores de RRHH, gerentes de operaciones, dueños de pymes.
 
 **Competencia:**  
+
 - Factorial, Holded, Kenjo, Zoho People.  
 - Diferenciador: Staffy es más adaptable, económica y rápida de implementar.
 
 **Análisis DAFO**
 ![Gráfico Análisis DAFO circulo texto Creativo Multicolor](https://github.com/user-attachments/assets/05b6c963-4339-4204-8a15-801d8576ba33)
-
 
 ---
 
@@ -254,16 +255,19 @@ Integrar prácticas responsables a nivel ambiental, social y económico, tanto e
 ### 3. Ejes de Acción
 
 #### 🌍 Ambiental
+
 - Hosting ecológico (energía renovable, servidores eficientes).
 - Optimización de código y rendimiento para menor consumo de datos.
 - UI/UX ecoeficiente: carga ligera, mínima dependencia externa.
 
 #### 👥 Social
+
 - Interfaz accesible (cumple con WCAG 2.1).
 - Lenguaje y diseño inclusivo.
 - Diversidad e inclusión en el equipo de desarrollo y soporte.
 
 #### 💼 Económico
+
 - Precios transparentes y justos.
 - Modelo escalable y ético.
 - Reinversión en soporte comunitario y mejoras sostenibles.
