@@ -106,8 +106,8 @@ Accede a: `http://localhost:5173`
 ## 🔐 Credenciales de ejemplo
 
 ```bash
-Usuario: admin@example.com
-Contraseña: admin123
+Usuario: admin
+Contraseña: admin
 ```
 
 > Puedes cambiarlas desde el panel de Django Admin.
