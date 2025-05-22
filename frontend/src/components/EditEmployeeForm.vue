@@ -54,6 +54,7 @@
 <script lang="ts">
 import { ref, onMounted } from 'vue'
 import { useRoute } from 'vue-router'
+import { useRouter } from 'vue-router';
 import axios from 'axios'
 
 interface Profile {
@@ -68,6 +69,8 @@ interface Profile {
 export default {
   setup() {
     const profile = ref<Profile | null>(null)
+
+    const router = useRouter();
     const route = useRoute()
     const username = route.params.username as string
 
@@ -97,6 +100,7 @@ export default {
           },
         )
         alert('Profile saved successfully')
+        router.push('/employees');
       } catch (error) {
         console.error('Error saving profile:', error)
         alert('Error saving profile')

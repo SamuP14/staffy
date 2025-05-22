@@ -96,12 +96,15 @@ def edit_profile(request, username):
     except json.JSONDecodeError:
         return JsonResponse({'error': 'Invalid JSON'}, status=400)
 
-    # Actualizar campos simples
+    for field in ['first_name', 'last_name']:
+        if field in data:
+            setattr(user, field, data[field])
+    user.save()
+
     for field in ['experience', 'profession', 'phone', 'id_number']:
         if field in data:
             setattr(profile, field, data[field])
 
-    # Procesar avatar si se recibe como base64
     avatar_base64 = data.get('avatar')
     if avatar_base64:
         try:
@@ -110,15 +113,15 @@ def edit_profile(request, username):
 
             decoded_img = base64.b64decode(avatar_base64)
             image = Image.open(BytesIO(decoded_img))
-            image.verify()  # Verifica que sea una imagen válida
+            image.verify()
 
-            # Guardar imagen en el campo avatar
             profile.avatar.save(f"{username}_avatar.png", BytesIO(decoded_img), save=False)
         except (base64.binascii.Error, UnidentifiedImageError, ValueError):
             return JsonResponse({'error': 'Invalid image data'}, status=400)
 
     profile.save()
     return JsonResponse({'message': 'Profile updated successfully'})
+
 
 @csrf_exempt
 @post_required
