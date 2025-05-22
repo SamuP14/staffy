@@ -12,7 +12,7 @@
 
       <button @click="showRoleForm = !showRoleForm" class="btn btn-primary mt-4"
         aria-label="Toggle role form visibility">
-        {{ showRoleForm ? 'Cancelar' : 'Añadir Roles' }}
+        {{ showRoleForm ? 'Cancel' : 'Add roles' }}
       </button>
 
       <div class="profile-details">
@@ -25,14 +25,14 @@
           class="mt-4 full-width-role-list" />
 
         <div v-if="showRoleForm" class="mt-3 show-form" style="background: #f0f0f0; padding: 15px; border-radius: 8px;">
-          <label for="multi-role-select" class="form-label"><strong>Selecciona uno o más roles:</strong></label>
+          <label for="multi-role-select" class="form-label"><strong>Select one or more roles:</strong></label>
           <select id="multi-role-select" v-model="selectedRoles" multiple size="5" class="form-control"
             aria-label="Multiple role selector">
             <option v-for="role in availableRoles" :key="role.id" :value="role.code">
               {{ role.name }}
             </option>
           </select>
-          <button @click="addRoles" class="btn btn-success mt-3" aria-label="Confirm selected roles">Confirmar</button>
+          <button @click="addRoles" class="btn btn-success mt-3" aria-label="Confirm selected roles">Confirm</button>
         </div>
       </div>
     </div>

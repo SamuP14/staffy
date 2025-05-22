@@ -6,27 +6,40 @@
         <div class="profile-form mt-4" role="form" aria-label="Edit Task Form">
           <div class="mb-3"><label for="title" class="form-label">Title</label><input type="text" id="title" v-model="task.title" class="form-control" required /></div>
 
-          <label for="description">Description:</label>
           <div class="mb-3"><label for="description" class="form-label">Description</label><textarea id="description" v-model="task.description" class="form-control" rows="4" required></textarea></div>
 
-          <label for="due_date">Due Date:</label>
           <div class="mb-3"><label for="due_date" class="form-label">Due Date</label><input type="date" id="due_date" v-model="task.due_date" class="form-control" required /></div>
 
-          <label for="status">Status:</label>
           <div class="mb-3"><label for="status" class="form-label">Status</label><select id="status" v-model="task.status" class="form-control" required>
             <option value="pending">Pending</option>
             <option value="in_progress">In Progress</option>
             <option value="completed">Completed</option>
           </select></div></div>
 
-          <label for="priority">Priority:</label>
           <div class="mb-3"><label for="priority" class="form-label">Priority</label><select id="priority" v-model="task.priority" class="form-control" required>
             <option value="low">Low</option>
             <option value="medium">Medium</option>
             <option value="high">High</option>
           </select>
 
-          <div class="mb-3"><label for="employees" class="form-label">Employees (comma separated usernames)</label><input type="text" id="employees" v-model="employeeString" class="form-control" required /></div>
+          <div class="mb-3">
+            <label for="employees" class="form-label">Employees</label>
+            <select
+              id="employees"
+              v-model="task.employees"
+              class="form-control"
+              multiple
+              aria-label="Select multiple employees"
+            >
+              <option
+                v-for="employee in employeeOptions"
+                :key="employee.user.username"
+                :value="employee.user.username"
+              >
+                {{ employee.user.first_name }} {{ employee.user.last_name }} ({{ employee.user.username }})
+              </option>
+            </select>
+          </div>
 
           <button class="btn btn-primary w-100 mt-3" @click="saveTask" aria-label="Save edited task">Save</button>
         </div>
@@ -55,35 +68,54 @@ interface Task {
   updated_at: string;
 }
 
+interface EmployeeProfile {
+  user: {
+    username: string;
+    first_name: string;
+    last_name: string;
+    email: string;
+  };
+  id: number;
+  id_number: string;
+  phone: string;
+  profession: string;
+  experience: string;
+  avatar: string;
+  role: string[];
+}
+
 export default {
   setup() {
     const route = useRoute();
     const router = useRouter();
     const taskId = route.params.id as string;
     const task = ref<Task | null>(null);
+    const employeeOptions = ref<EmployeeProfile[]>([]);
     const employeeString = ref('');
 
     const fetchTask = async () => {
       try {
         const response = await axios.get(`http://127.0.0.1:8000/api/tasks/${taskId}/`);
         task.value = response.data;
-        employeeString.value = task.value!.employees.join(', ');
       } catch (error) {
         console.error('Error fetching task:', error);
       }
     };
 
+    const fetchEmployees = async () => {
+      try {
+        const response = await axios.get('http://127.0.0.1:8000/api/accounts/profile/');
+        employeeOptions.value = response.data;
+      } catch (error) {
+        console.error('Error fetching employees:', error);
+      }
+    };
+
     const saveTask = async () => {
       try {
-        const updated = {
-          ...task.value,
-          employees: employeeString.value.split(',').map(e => e.trim()).filter(e => e),
-        };
-
-        await axios.post(`http://127.0.0.1:8000/api/tasks/${taskId}/edit/`, updated, {
+        await axios.post(`http://127.0.0.1:8000/api/tasks/${taskId}/edit/`, task.value, {
           headers: { 'Content-Type': 'application/json' },
         });
-
         alert('Task saved successfully');
         router.push('/tasks/');
       } catch (error) {
@@ -92,12 +124,16 @@ export default {
       }
     };
 
-    onMounted(fetchTask);
+    onMounted(() => {
+      fetchTask();
+      fetchEmployees();
+    });
 
-    return { task, employeeString, saveTask };
+    return { task, saveTask, employeeOptions };
   },
 };
 </script>
+
 
 <style scoped>
 .profile-edit-container {
